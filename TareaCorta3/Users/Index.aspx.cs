@@ -19,8 +19,6 @@ namespace TareaCorta3.Users
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if(LUser.Estado == false)
-            {
                 string resp = user.ValidarNulosIndex(txtIdentificacion.Text, txtPassword.Text);
                 if (resp.Equals("1"))
                 {
@@ -30,7 +28,7 @@ namespace TareaCorta3.Users
                         resp = user.ValidarUsuario(txtIdentificacion.Text, txtPassword.Text);
                         if (resp.Equals("1"))
                         {
-                            LUser.Estado = true;
+                            //LUser.Estado = true;
                             Response.Redirect("../Products/listadoProductos.aspx");
                         }
                         else
@@ -56,11 +54,7 @@ namespace TareaCorta3.Users
                     txtIdentificacion.Text = "";
                     txtPassword.Text = "";
                 }
-            }
-            else
-            {
-                Response.Redirect("index.aspx");
-            }
+            
             
         }
     }

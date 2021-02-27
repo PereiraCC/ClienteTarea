@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <h3>Iniciar Sesion</h3>
                 </div>
-                <img src="/Assets/user.png" class="mx-auto w-25"/>
+                <img src="../Assets/user.png" class="mx-auto w-25"/>
                 <div class="card-body">
                    <form id="Form1" method="post" runat="server" autocomplete="off">
                         <div class="form-group">

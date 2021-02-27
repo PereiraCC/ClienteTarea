@@ -10,3 +10,5 @@ C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\Tarea
 C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\Datos\obj\Debug\Datos.dll
 C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\Datos\obj\Debug\Datos.pdb
 C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\Datos\obj\Debug\Datos.csprojAssemblyReference.cache
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\Datos\bin\Debug\Newtonsoft.Json.dll
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\Datos\bin\Debug\Newtonsoft.Json.xml

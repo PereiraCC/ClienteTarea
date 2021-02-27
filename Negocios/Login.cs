@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,22 +14,22 @@ namespace Negocios
 
         public string crearUsuario(string identificacion, string nombre, string apellidos, string password)
         {
-            int res = usuario.crearUsuario(new Usuarios()
+            try
             {
-                Identificacion = identificacion,
-                Nombre = nombre,
-                Apellidos = apellidos,
-                pass = EncrytarPassword(password)
-            });
+                string res = usuario.crearUsuario(new ModelUsuario()
+                {
+                    Identificacion = identificacion,
+                    Nombre = nombre,
+                    Apellidos = apellidos,
+                    pass = password
+                });
 
-            if(res == 1)
-            {
-                return "1";
+                return res;
             }
-            else
+            catch(Exception ex)
             {
-                return "0";
-            }
+                throw ex;
+            }  
         }
 
         private string EncrytarPassword(string password)
@@ -49,16 +50,22 @@ namespace Negocios
 
         public string ValidarUsuario(string identificacion, string password)
         {
-            List<Usuarios> usuarios = usuario.BuscarUsuario(identificacion);
-
-            foreach(Usuarios user in usuarios)
+            try
             {
-                if(user.Identificacion == identificacion && DesEncrytarPassword(user.pass) == password)
+                string res = usuario.ValidarInicioSesion(new ModelUsuario()
                 {
-                    return "1";
-                }
+                    Identificacion = identificacion,
+                    pass = password
+                });
+
+                return res;
             }
-            return "Usuario y/o contraseña incorrectos.";
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         public string ValidarNulos(string Identificacion, string Nombre, string Apellidos, string Contrasena)

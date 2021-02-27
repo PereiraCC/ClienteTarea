@@ -80,3 +80,5 @@ C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\Tarea
 C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\TareaCorta3\obj\Debug\TareaCorta3.pdb
 C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\TareaCorta3\bin\EntityFramework.SqlServer.dll
 C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\TareaCorta3\bin\EntityFramework.SqlServer.xml
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\TareaCorta3\bin\Newtonsoft.Json.dll
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\Semana3\TareaCorta3\TareaCorta3\bin\Newtonsoft.Json.xml

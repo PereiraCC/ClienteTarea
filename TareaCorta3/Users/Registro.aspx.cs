@@ -37,7 +37,7 @@ namespace TareaCorta3.Users
                             else
                             {
                                 lblError.Visible = true;
-                                lblError.Text = "Error: La insercion del nuevo usuario es invalida.";
+                                lblError.Text = "Error: " + resp;
                                 txtIdentificacion.Text = "";
                                 txtNombre.Text = "";
                                 txtApellidos.Text = "";
