@@ -53,7 +53,7 @@ namespace TareaCorta3.Products
                 {
                     txtNombre.Text = "";
                     lblError.Visible = true;
-                    lblError.Text = "Error: Datos incorrectos";
+                    lblError.Text = "Error: " + resp;
                 }
                 
             }

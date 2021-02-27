@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,21 +42,14 @@ namespace Negocios
         {
             try
             {
-                if (vacioTexto(descripcion) == false && validarTexto(descripcion) == true && validarKeyWords(descripcion) == false)
+                if (vacioTexto(descripcion) == false  && validarKeyWords(descripcion) == false)
                 {
-                    int res = productos.crearAlmacen(new Almacenes()
+                    string res = productos.crearAlmacen(new ModelAlmacen()
                     {
                         Descripcion = descripcion,
                     });
 
-                    if (res == 1)
-                    {
-                        return "1";
-                    }
-                    else
-                    {
-                        return "0";
-                    }
+                    return res;
                 }
                 else
                 {
