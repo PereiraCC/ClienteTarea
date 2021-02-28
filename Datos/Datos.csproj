@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Modelos\ModelAlmacen.cs" />
     <Compile Include="Modelos\ModelError.cs" />
+    <Compile Include="Modelos\ModelProducto.cs" />
     <Compile Include="Modelos\ModelUsuario.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Productos.cs">

@@ -13,24 +13,19 @@ namespace Negocios
     {
         private Product productos = new Product();
 
-        public string crearProducto(string descripcion, string codigo)
+        public string crearProducto(string descripcion, string codigo, string cantidad, string nombreAlmacen)
         {
             try
             {
-                int res = productos.crearProducto(new Productos()
+                string res = productos.crearProducto(new ModelProducto()
                 {
-                    Descripcion = descripcion,
+                    descripcion = descripcion,
                     codigo = codigo,
+                    cantidad = cantidad,
+                    nombreAlmacen = nombreAlmacen
                 });
 
-                if (res == 1)
-                {
-                    return "1";
-                }
-                else
-                {
-                    return "0";
-                }
+                return res;
             }
             catch(Exception ex)
             {
@@ -64,41 +59,13 @@ namespace Negocios
             
         }
 
-        public string crearStock(string cantidad, string nombreAlmacen, string producto)
-        {
-            try
-            {
-                int idAlmacen = productos.ObtenerUnAlmacen(nombreAlmacen);
-                int idProducto = productos.ObtenerUnProducto2(producto);
-                int res = productos.CrearStock(new Stock()
-                {
-                    Stock1 = Int32.Parse(cantidad),
-                    idAlmacen = idAlmacen,
-                    idProducto = idProducto
-                });
-
-                if (res == 1)
-                {
-                    return "1";
-                }
-                else
-                {
-                    return "0";
-                }
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public List<string> obtenerAlmacenes()
         {
             try
             {
                 List<string> almacenes = new List<string>();
-                List<Almacenes> data = productos.ObtenerAlmacenes();
-                foreach(Almacenes alm in data)
+                List<ModelAlmacen> data = productos.ObtenerAlmacenes();
+                foreach(ModelAlmacen alm in data)
                 {
                     almacenes.Add(alm.Descripcion);
                 }
@@ -116,7 +83,7 @@ namespace Negocios
             try
             {
                 DataTable dtProducto = createTable();
-                List<VLIS_Articulos> allProd = productos.ObtenerTodos();
+                List<VLIS_Articulos> allProd = productos.ObtenerTodosProductos();
                 foreach(VLIS_Articulos prod in allProd)
                 {
                     DataRow drRow = dtProducto.NewRow();
@@ -140,19 +107,9 @@ namespace Negocios
         {
             try
             {
-                int resp = productos.BorrarProducto(codigo);
-                if(resp == 2)
-                {
-                    return "1";
-                }
-                else if(resp == 1)
-                {
-                    return "0";
-                }
-                else
-                {
-                    return "0";
-                }
+                string resp = productos.BorrarProducto(codigo);
+
+                return resp;
             }
             catch(Exception ex)
             {
@@ -164,12 +121,12 @@ namespace Negocios
         {
             try
             {
-                VLIS_Articulos product = productos.ObtenerUnProducto(codigo);
+                ModelProducto product = productos.ObtenerUnProducto(codigo);
                 List<string> data = new List<string>();
                 data.Add(product.codigo);
-                data.Add(product.Descripcion);
-                data.Add(product.Stock.ToString());
-                data.Add(product.Almacen);
+                data.Add(product.descripcion);
+                data.Add(product.cantidad.ToString());
+                data.Add(product.nombreAlmacen);
 
                 return data;
             }
@@ -224,15 +181,15 @@ namespace Negocios
         {
             try
             {
-                int resp = productos.ActualizarProducto(codigo, descripcion, cantidad, nombreAlmacen);
-                if(resp == 1)
+                string res = productos.ActualizarProducto(new ModelProducto()
                 {
-                    return "1";
-                }
-                else
-                {
-                    return "0";
-                }
+                    descripcion = descripcion,
+                    codigo = codigo,
+                    cantidad = cantidad,
+                    nombreAlmacen = nombreAlmacen
+                });
+
+                return res;
             }
             catch(Exception ex)
             {

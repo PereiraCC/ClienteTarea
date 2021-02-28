@@ -19,14 +19,7 @@ namespace TareaCorta3.Products
         {
             try
             {
-                //if (LUser.Estado == false)
-                //{
-                //    Response.Redirect("../Users/index.aspx");
-                //}
-                //else
-                //{
-                //    cargarTable();
-                //}
+                cargarTable();
             }
             catch(Exception ex)
             {

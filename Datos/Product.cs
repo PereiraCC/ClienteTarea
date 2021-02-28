@@ -13,7 +13,7 @@ namespace Datos
     public class Product
     {
         private TAREA3Entities entities;
-        private const string SERVICE_BASE_URL = "http://localhost:80/WebApiTarea/api/Almacenes";
+        private const string SERVICE_BASE_URL = "http://localhost/WebApiTarea/api/";
 
         public Product()
         {
@@ -27,14 +27,41 @@ namespace Datos
             }
         }
 
-        public int crearProducto(Productos u)
+        public string crearProducto(ModelProducto producto)
         {
             try
             {
-                entities.Productos.Add(u);
-                int res = entities.SaveChanges();
-
-                return res;
+                string json = producto.ToJsonString();
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.PostAsync(
+                            SERVICE_BASE_URL + "Productos",
+                            new StringContent(json, Encoding.UTF8, "application/json")
+                        );
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.Created)
+                    {
+                        return "1";
+                    }
+                    else if (message.StatusCode == System.Net.HttpStatusCode.Conflict)
+                    {
+                        return "El producto ya se encuentra registrado";
+                    }
+                    else
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        ModelError error = JsonConvert.DeserializeObject<ModelError>(mens);
+                        return error.Exceptionmessage;
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -43,33 +70,40 @@ namespace Datos
             
         }
 
-        public int CrearStock(Stock p)
+        public List<VLIS_Articulos> ObtenerTodosProductos()
         {
             try
             {
-                entities.Stock.Add(p);
-                int res = entities.SaveChanges();
+                List<VLIS_Articulos> productos;
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.GetAsync(SERVICE_BASE_URL + "Productos");
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    {
+                        productos = null;
+                    }
+                    else
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        productos = JsonConvert.DeserializeObject<List<VLIS_Articulos>>(mens);
 
-                return res;
+                    }
+                    return productos;
+                }
             }
             catch(Exception ex)
             {
                 throw ex;
-            }
-            
-        }
-
-        public List<VLIS_Articulos> ObtenerTodos()
-        {
-            try
-            {
-                return entities.VLIS_Articulos.ToList<VLIS_Articulos>();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-            
+            }  
         }
 
         public List<Usuarios> BuscarUsuario(string identificacion)
@@ -87,15 +121,38 @@ namespace Datos
             }
         }
 
-        public int BorrarProducto(string id)
+        public string BorrarProducto(string codigo)
         {
             try
             {
-                Productos P = entities.Productos.First<Productos>(x => x.codigo == id);
-                Stock S = entities.Stock.First<Stock>(x => x.idProducto == P.idArticulo);
-                entities.Stock.Remove(S);
-                entities.Productos.Remove(P);
-                return entities.SaveChanges();
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.DeleteAsync(
+                            SERVICE_BASE_URL + "Productos/?codigo=" + codigo);
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return "1";
+                    }
+                    else if (message.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return "El producto no se encuentra registrado";
+                    }
+                    else
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        ModelError error = JsonConvert.DeserializeObject<ModelError>(mens);
+                        return error.Exceptionmessage;
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -104,16 +161,41 @@ namespace Datos
             
         }
 
-        public int ActualizarProducto(string idProducto, string nombre, string stock, string almacen)
+        public string ActualizarProducto(ModelProducto producto)
         {
             try
             {
-                Productos P = entities.Productos.First<Productos>(x => x.codigo == idProducto);
-                Stock C = entities.Stock.First<Stock>(x => x.idProducto == P.idArticulo);
-                P.Descripcion = nombre;
-                C.Stock1 = Int32.Parse(stock);
-                C.idAlmacen = ObtenerUnAlmacen(almacen);
-                return entities.SaveChanges();
+                string json = producto.ToJsonString();
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.PutAsync(
+                            SERVICE_BASE_URL + "Productos/?codigo=" + producto.codigo,
+                            new StringContent(json, Encoding.UTF8, "application/json")
+                        );
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return "1";
+                    }
+                    else if (message.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return "El producto no se encuentra registrado";
+                    }
+                    else
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        ModelError error = JsonConvert.DeserializeObject<ModelError>(mens);
+                        return error.Exceptionmessage;
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -131,7 +213,7 @@ namespace Datos
                     var task = Task.Run(async () =>
                     {
                         return await client.PostAsync(
-                            SERVICE_BASE_URL,
+                            SERVICE_BASE_URL + "Almacenes",
                             new StringContent(json, Encoding.UTF8, "application/json")
                         );
                     }
@@ -163,26 +245,35 @@ namespace Datos
             }
         }
 
-        public List<Almacenes> ObtenerAlmacenes()
+        public List<ModelAlmacen> ObtenerAlmacenes()
         {
             try
             {
+                List<ModelAlmacen> almacenes;
                 using (var client = new HttpClient())
                 {
                     var task = Task.Run(async () =>
                     {
-                        return await client.GetAsync(SERVICE_BASE_URL);
-                            
+                        return await client.GetAsync(SERVICE_BASE_URL + "Almacenes");  
                     }
                     );
                     HttpResponseMessage message = task.Result;
-                    var task2 = Task<string>.Run(async () =>
+                    if(message.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                     {
-                        return await message.Content.ReadAsStringAsync();
-                    });
-                    string mens = task2.Result;
-                    List<Almacenes> almacenes = JsonConvert.DeserializeObject<List<Almacenes>>(mens);
+                        almacenes = null;
+                    }
+                    else
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        almacenes = JsonConvert.DeserializeObject<List<ModelAlmacen>>(mens);
+                        
+                    }
                     return almacenes;
+
                 }
             }
             catch(Exception ex)
@@ -195,9 +286,9 @@ namespace Datos
         {
             try
             {
-                List<Almacenes> almacenes = ObtenerAlmacenes();
+                List<ModelAlmacen> almacenes = ObtenerAlmacenes();
 
-                foreach (Almacenes alm in almacenes)
+                foreach (ModelAlmacen alm in almacenes)
                 {
                     if (alm.Descripcion == nombre)
                     {
@@ -213,21 +304,39 @@ namespace Datos
             
         }
 
-        public VLIS_Articulos ObtenerUnProducto(string codigo)
+        public ModelProducto ObtenerUnProducto(string codigo)
         {
             try
             {
-                VLIS_Articulos produ = new VLIS_Articulos();
-                List<VLIS_Articulos> productos = entities.VLIS_Articulos.ToList<VLIS_Articulos>();
-
-                foreach (VLIS_Articulos prod in productos)
+                ModelProducto product;
+                using (var client = new HttpClient())
                 {
-                    if (prod.codigo == codigo)
+                    var task = Task.Run(async () =>
                     {
-                        produ = prod;
+                        return await client.GetAsync(SERVICE_BASE_URL + "Productos/?codigo=" + codigo);
                     }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        product = JsonConvert.DeserializeObject<ModelProducto>(mens);
+                    }
+                    else if (message.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        product = null;
+                    }
+                    else
+                    {
+                        product = null;
+                    }
+                    return product;
+
                 }
-                return produ;
             }
             catch(Exception ex)
             {

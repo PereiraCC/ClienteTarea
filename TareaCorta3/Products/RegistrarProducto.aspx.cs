@@ -84,25 +84,10 @@ namespace TareaCorta3.Products
                 {
                     if (codigo.Equals(""))
                     {
-                        resp = producto.crearProducto(txtNombre.Text, txtCodigo.Text);
+                        resp = producto.crearProducto(txtNombre.Text, txtCodigo.Text, txtExistencias.Text, drpBodega.Text);
                         if (resp.Equals("1"))
                         {
-                            resp = producto.crearStock(txtExistencias.Text, drpBodega.Text, txtNombre.Text);
-                            if (resp.Equals("1"))
-                            {
-                                Response.Redirect("listadoProductos.aspx");
-                            }
-                            else
-                            {
-                                txtCodigo.Text = "";
-                                txtNombre.Text = "";
-                                txtExistencias.Text = "";
-                                drpBodega.Items.Clear();
-                                cargarCboAlmacenes();
-                                drpBodega.SelectedValue = "Seleccione un almacen";
-                                lblError.Visible = true;
-                                lblError.Text = "Error: La insercion de un producto fue cancelada";
-                            }
+                            Response.Redirect("listadoProductos.aspx"); 
                         }
                         else
                         {
@@ -113,7 +98,7 @@ namespace TareaCorta3.Products
                             cargarCboAlmacenes();
                             drpBodega.SelectedValue = "Seleccione un almacen";
                             lblError.Visible = true;
-                            lblError.Text = "Error: La insercion de un producto fue cancelada";
+                            lblError.Text = "Error: " + resp;
                         }
                     }
                     else
@@ -128,7 +113,7 @@ namespace TareaCorta3.Products
                             cargarCboAlmacenes();
                             cargarDatosProducto();
                             lblError.Visible = true;
-                            lblError.Text = "Error: La modificacion de un producto fue cancelada";
+                            lblError.Text = "Error: " + resp;
                         }
                     }
                     
