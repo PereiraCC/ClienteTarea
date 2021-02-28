@@ -167,7 +167,23 @@ namespace Datos
         {
             try
             {
-                return entities.Almacenes.ToList<Almacenes>();
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.GetAsync(SERVICE_BASE_URL);
+                            
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    var task2 = Task<string>.Run(async () =>
+                    {
+                        return await message.Content.ReadAsStringAsync();
+                    });
+                    string mens = task2.Result;
+                    List<Almacenes> almacenes = JsonConvert.DeserializeObject<List<Almacenes>>(mens);
+                    return almacenes;
+                }
             }
             catch(Exception ex)
             {
