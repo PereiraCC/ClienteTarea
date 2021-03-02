@@ -12,8 +12,8 @@ namespace Datos
 {
     public class Product
     {
-        private TAREA3Entities entities;
-        private const string SERVICE_BASE_URL = "http://localhost/WebApiTarea/api/";
+        private TAREA3Entities entities; 
+        private const string SERVICE_BASE_URL = "http://localhost/ApiTarea/api/";
 
         public Product()
         {

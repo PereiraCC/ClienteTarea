@@ -11,7 +11,7 @@ namespace Datos
 {
     public class Users
     {
-        private const string SERVICE_BASE_URL = "http://localhost:80/WebApiTarea/api/Usuarios";
+        private const string SERVICE_BASE_URL = "http://localhost/ApiTarea/api/Usuarios";
 
         public Users() { }
 
