@@ -62,7 +62,6 @@ namespace Negocios
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 
