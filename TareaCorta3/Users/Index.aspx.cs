@@ -26,17 +26,25 @@ namespace TareaCorta3.Users
                     if (resp.Equals("1"))
                     {
                         resp = user.ValidarUsuario(txtIdentificacion.Text, txtPassword.Text);
-                        if (resp.Equals("1"))
-                        {
-                            //LUser.Estado = true;
-                            Response.Redirect("../Products/listadoProductos.aspx");
-                        }
-                        else
+                        if (resp.Equals("El usuario no existe"))
                         {
                             lblError.Visible = true;
                             lblError.Text = "Error: " + resp;
                             txtIdentificacion.Text = "";
                             txtPassword.Text = "";
+                        
+                        }
+                        else if (resp.Contains("Error"))
+                        {
+                            lblError.Visible = true;
+                            lblError.Text = resp;
+                            txtIdentificacion.Text = "";
+                            txtPassword.Text = "";
+                        }
+                        else
+                        {
+                            LUser.Ticket = resp;
+                            Response.Redirect("../Products/listadoProductos.aspx");
                         }//vusuario
                     }
                     else

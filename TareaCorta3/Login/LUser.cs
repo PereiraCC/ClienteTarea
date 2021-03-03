@@ -7,7 +7,7 @@ namespace TareaCorta3.Login
 {
     public class LUser
     {
-        public static bool Estado { get; set; }
+        public static string Ticket { get; set; }
 
     }
 }

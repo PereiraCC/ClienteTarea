@@ -46,7 +46,7 @@ namespace TareaCorta3.Products
         {
             try
             {
-                LUser.Estado = false;
+                //LUser.Estado = false;
                 Response.Redirect("../Users/index.aspx");
             }
             catch(Exception ex)

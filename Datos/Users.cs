@@ -75,7 +75,12 @@ namespace Datos
                     HttpResponseMessage message = task.Result;
                     if (message.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        return "1";
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        return mens;
                     }
                     else if (message.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
@@ -89,7 +94,7 @@ namespace Datos
                         });
                         string mens = task2.Result;
                         ModelError error = JsonConvert.DeserializeObject<ModelError>(mens);
-                        return error.Exceptionmessage;
+                        return "Error: " + error.Exceptionmessage;
                     }
                 }
             }
