@@ -44,6 +44,7 @@ namespace TareaCorta3.Users
                         else
                         {
                             LUser.Ticket = resp;
+                            LUser.Identificacion = txtIdentificacion.Text;
                             Response.Redirect("../Products/listadoProductos.aspx");
                         }//vusuario
                     }

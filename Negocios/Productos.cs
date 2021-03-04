@@ -13,7 +13,7 @@ namespace Negocios
     {
         private Product productos = new Product();
 
-        public string crearProducto(string descripcion, string codigo, string cantidad, string nombreAlmacen)
+        public string crearProducto(string descripcion, string codigo, string cantidad, string nombreAlmacen, string ticket, string identificacion)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Negocios
                     codigo = codigo,
                     cantidad = cantidad,
                     nombreAlmacen = nombreAlmacen
-                });
+                }, ticket, identificacion);
 
                 return res;
             }
@@ -33,7 +33,7 @@ namespace Negocios
             }
         }
 
-        public string crearAlmacen(string descripcion)
+        public string crearAlmacen(string descripcion, string ticket, string id)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Negocios
                     string res = productos.crearAlmacen(new ModelAlmacen()
                     {
                         Descripcion = descripcion,
-                    });
+                    }, ticket, id);
 
                     return res;
                 }
@@ -59,12 +59,12 @@ namespace Negocios
             
         }
 
-        public List<string> obtenerAlmacenes()
+        public List<string> obtenerAlmacenes(string identificacion, string ticket)
         {
             try
             {
                 List<string> almacenes = new List<string>();
-                List<ModelAlmacen> data = productos.ObtenerAlmacenes();
+                List<ModelAlmacen> data = productos.ObtenerAlmacenes(identificacion, ticket);
                 foreach(ModelAlmacen alm in data)
                 {
                     almacenes.Add(alm.Descripcion);
@@ -78,12 +78,12 @@ namespace Negocios
             }
         }
 
-        public DataTable allCustomer()
+        public DataTable allCustomer(string ticket, string identificacion)
         {
             try
             {
                 DataTable dtProducto = createTable();
-                List<VLIS_Articulos> allProd = productos.ObtenerTodosProductos();
+                List<VLIS_Articulos> allProd = productos.ObtenerTodosProductos(ticket, identificacion);
                 foreach(VLIS_Articulos prod in allProd)
                 {
                     DataRow drRow = dtProducto.NewRow();
@@ -103,11 +103,11 @@ namespace Negocios
             }
         }
 
-        public string eliminarProducto(string codigo)
+        public string eliminarProducto(string ticket, string identificacion, string codigo)
         {
             try
             {
-                string resp = productos.BorrarProducto(codigo);
+                string resp = productos.BorrarProducto(ticket, identificacion, codigo);
 
                 return resp;
             }
@@ -117,11 +117,11 @@ namespace Negocios
             }
         }
 
-        public List<string> obtenerUnProducto(string codigo)
+        public List<string> obtenerUnProducto(string ticket, string identificacion, string codigo)
         {
             try
             {
-                ModelProducto product = productos.ObtenerUnProducto(codigo);
+                ModelProducto product = productos.ObtenerUnProducto(ticket, identificacion, codigo);
                 List<string> data = new List<string>();
                 data.Add(product.codigo);
                 data.Add(product.descripcion);
@@ -177,7 +177,7 @@ namespace Negocios
             }
         }
 
-        public string actualizarProducto(string codigo, string descripcion, string cantidad, string nombreAlmacen)
+        public string actualizarProducto(string codigo, string descripcion, string cantidad, string nombreAlmacen, string ticket, string identificacion)
         {
             try
             {
@@ -187,7 +187,7 @@ namespace Negocios
                     codigo = codigo,
                     cantidad = cantidad,
                     nombreAlmacen = nombreAlmacen
-                });
+                }, ticket, identificacion);
 
                 return res;
             }

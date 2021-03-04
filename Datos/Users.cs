@@ -104,5 +104,47 @@ namespace Datos
             }
         }
 
+        public string CerrarSesion(ModelUsuario usuario)
+        {
+            try
+            {
+                string json = usuario.ToJsonString();
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.PostAsync(
+                            SERVICE_BASE_URL + "/SingOut",
+                            new StringContent(json, Encoding.UTF8, "application/json")
+                        );
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        return "1";
+                    }
+                    else if (message.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return "El usuario no existe";
+                    }
+                    else
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        ModelError error = JsonConvert.DeserializeObject<ModelError>(mens);
+                        return "Error: " + error.Exceptionmessage;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

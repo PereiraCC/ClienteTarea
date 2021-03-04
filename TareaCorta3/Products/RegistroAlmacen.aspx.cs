@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TareaCorta3.Login;
 
 namespace TareaCorta3.Products
 {
@@ -34,7 +35,7 @@ namespace TareaCorta3.Products
         {
             try
             {
-                string resp = produtos.crearAlmacen(txtNombre.Text);
+                string resp = produtos.crearAlmacen(txtNombre.Text, LUser.Ticket, LUser.Identificacion);
                 if (resp.Equals("0") || resp.Equals("1"))
                 {
                     if (resp.Equals("1"))

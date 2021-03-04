@@ -13,6 +13,7 @@ namespace TareaCorta3.Products
     public partial class listadoProductos : System.Web.UI.Page
     {
         Producto producto = new Producto();
+        ActionsUser user = new ActionsUser();
         DataTable table;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -32,7 +33,7 @@ namespace TareaCorta3.Products
         {
             try
             {
-                table = producto.allCustomer();
+                table = producto.allCustomer(LUser.Ticket, LUser.Identificacion);
                 gvProducts.DataSource = table;
                 gvProducts.DataBind();
             }
@@ -46,8 +47,17 @@ namespace TareaCorta3.Products
         {
             try
             {
-                //LUser.Estado = false;
-                Response.Redirect("../Users/index.aspx");
+                string resp = user.cerrarSesion(LUser.Identificacion);
+                if (resp.Equals("1"))
+                {
+                    Response.Redirect("../Users/index.aspx");
+                }
+                else
+                {
+                    lblError.Visible = true;
+                    lblError.Text = "Error: " + resp;
+                }
+                
             }
             catch(Exception ex)
             {
@@ -93,7 +103,7 @@ namespace TareaCorta3.Products
                 string resp = producto.validarCodigoP(txtCodigoS.Text);
                 if (resp.Equals("1"))
                 {
-                    if (producto.eliminarProducto(txtCodigoS.Text).Equals("1"))
+                    if (producto.eliminarProducto(txtCodigoS.Text, LUser.Ticket, LUser.Identificacion).Equals("1"))
                     {
                         cargarTable();
                     }

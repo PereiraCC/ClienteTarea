@@ -67,6 +67,22 @@ namespace Negocios
 
         }
 
+        public string cerrarSesion(string identificacion)
+        {
+            try
+            {
+                return usuario.CerrarSesion(new ModelUsuario()
+                {
+                    Identificacion = identificacion
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         public string ValidarNulos(string Identificacion, string Nombre, string Apellidos, string Contrasena)
         {
             try

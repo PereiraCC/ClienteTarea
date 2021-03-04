@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TareaCorta3.Login;
 
 namespace TareaCorta3.Products
 {
@@ -39,7 +40,7 @@ namespace TareaCorta3.Products
         {
             try
             {
-                List<string> data = producto.obtenerAlmacenes();
+                List<string> data = producto.obtenerAlmacenes(LUser.Identificacion, LUser.Ticket);
                 drpBodega.Items.Add("Seleccione un almacen");
                 foreach (string alm in data)
                 {
@@ -57,7 +58,7 @@ namespace TareaCorta3.Products
         {
             try
             {
-                List<string> data = producto.obtenerUnProducto(codigo);
+                List<string> data = producto.obtenerUnProducto(LUser.Ticket, LUser.Identificacion, codigo);
                 txtCodigo.ReadOnly = true;
                 txtCodigo.Text = data[0];
                 lblNombre.Visible = true;
@@ -84,7 +85,7 @@ namespace TareaCorta3.Products
                 {
                     if (codigo.Equals(""))
                     {
-                        resp = producto.crearProducto(txtNombre.Text, txtCodigo.Text, txtExistencias.Text, drpBodega.Text);
+                        resp = producto.crearProducto(txtNombre.Text, txtCodigo.Text, txtExistencias.Text, drpBodega.Text, LUser.Ticket, LUser.Identificacion);
                         if (resp.Equals("1"))
                         {
                             Response.Redirect("listadoProductos.aspx"); 
@@ -103,7 +104,7 @@ namespace TareaCorta3.Products
                     }
                     else
                     {
-                        resp = producto.actualizarProducto(txtCodigo.Text, txtNombre.Text, txtExistencias.Text, drpBodega.Text);
+                        resp = producto.actualizarProducto(txtCodigo.Text, txtNombre.Text, txtExistencias.Text, drpBodega.Text, LUser.Ticket, LUser.Identificacion);
                         if (resp.Equals("1"))
                         {
                             Response.Redirect("listadoProductos.aspx");

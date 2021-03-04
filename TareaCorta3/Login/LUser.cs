@@ -9,5 +9,7 @@ namespace TareaCorta3.Login
     {
         public static string Ticket { get; set; }
 
+        public static string Identificacion { get; set; }
+
     }
 }

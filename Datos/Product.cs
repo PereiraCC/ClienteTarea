@@ -27,7 +27,7 @@ namespace Datos
             }
         }
 
-        public string crearProducto(ModelProducto producto)
+        public string crearProducto(ModelProducto producto, string ticket, string identificacion)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Datos
                     var task = Task.Run(async () =>
                     {
                         return await client.PostAsync(
-                            SERVICE_BASE_URL + "Productos",
+                            SERVICE_BASE_URL + "Productos/?ticket=" + ticket + "&id=" + identificacion,
                             new StringContent(json, Encoding.UTF8, "application/json")
                         );
                     }
@@ -70,7 +70,7 @@ namespace Datos
             
         }
 
-        public List<VLIS_Articulos> ObtenerTodosProductos()
+        public List<VLIS_Articulos> ObtenerTodosProductos(string ticket, string identificacion)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Datos
                 {
                     var task = Task.Run(async () =>
                     {
-                        return await client.GetAsync(SERVICE_BASE_URL + "Productos");
+                        return await client.GetAsync(SERVICE_BASE_URL + "Productos/?ticket=" + ticket + "&id=" + identificacion);
                     }
                     );
                     HttpResponseMessage message = task.Result;
@@ -94,7 +94,14 @@ namespace Datos
                             return await message.Content.ReadAsStringAsync();
                         });
                         string mens = task2.Result;
-                        productos = JsonConvert.DeserializeObject<List<VLIS_Articulos>>(mens);
+                        if (!string.IsNullOrEmpty(mens))
+                        {
+                            productos = JsonConvert.DeserializeObject<List<VLIS_Articulos>>(mens);
+                        }
+                        else
+                        {
+                            productos = null;
+                        }
 
                     }
                     return productos;
@@ -121,16 +128,16 @@ namespace Datos
             }
         }
 
-        public string BorrarProducto(string codigo)
+        public string BorrarProducto(string ticket, string identificacion, string codigo)
         {
             try
             {
+                string data = ticket + "," + identificacion + "," + codigo;
                 using (var client = new HttpClient())
                 {
                     var task = Task.Run(async () =>
                     {
-                        return await client.DeleteAsync(
-                            SERVICE_BASE_URL + "Productos/?codigo=" + codigo);
+                        return await client.DeleteAsync(SERVICE_BASE_URL + "Productos/?data=" + data);
                     }
                     );
                     HttpResponseMessage message = task.Result;
@@ -161,17 +168,18 @@ namespace Datos
             
         }
 
-        public string ActualizarProducto(ModelProducto producto)
+        public string ActualizarProducto(ModelProducto producto, string ticket, string identificacion)
         {
             try
             {
                 string json = producto.ToJsonString();
+                string url = SERVICE_BASE_URL + "Productos/?ticket=" + ticket + "&id=" + identificacion;
                 using (var client = new HttpClient())
                 {
                     var task = Task.Run(async () =>
                     {
                         return await client.PutAsync(
-                            SERVICE_BASE_URL + "Productos/?codigo=" + producto.codigo,
+                            url,
                             new StringContent(json, Encoding.UTF8, "application/json")
                         );
                     }
@@ -203,7 +211,7 @@ namespace Datos
             }
         }
 
-        public string crearAlmacen(ModelAlmacen almacen)
+        public string crearAlmacen(ModelAlmacen almacen, string ticket, string identificacion)
         {
             try
             {
@@ -213,7 +221,7 @@ namespace Datos
                     var task = Task.Run(async () =>
                     {
                         return await client.PostAsync(
-                            SERVICE_BASE_URL + "Almacenes",
+                            SERVICE_BASE_URL + "Almacenes/?ticket=" + ticket + "&id=" + identificacion,
                             new StringContent(json, Encoding.UTF8, "application/json")
                         );
                     }
@@ -245,7 +253,7 @@ namespace Datos
             }
         }
 
-        public List<ModelAlmacen> ObtenerAlmacenes()
+        public List<ModelAlmacen> ObtenerAlmacenes(string identificacion, string ticket)
         {
             try
             {
@@ -254,7 +262,7 @@ namespace Datos
                 {
                     var task = Task.Run(async () =>
                     {
-                        return await client.GetAsync(SERVICE_BASE_URL + "Almacenes");  
+                        return await client.GetAsync(SERVICE_BASE_URL + "Almacenes/?ticket=" + ticket + "&id=" + identificacion);  
                     }
                     );
                     HttpResponseMessage message = task.Result;
@@ -282,29 +290,7 @@ namespace Datos
             }
         }
 
-        public int ObtenerUnAlmacen(string nombre)
-        {
-            try
-            {
-                List<ModelAlmacen> almacenes = ObtenerAlmacenes();
-
-                foreach (ModelAlmacen alm in almacenes)
-                {
-                    if (alm.Descripcion == nombre)
-                    {
-                        return alm.idAlmacen;
-                    }
-                }
-                return 0;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-            
-        }
-
-        public ModelProducto ObtenerUnProducto(string codigo)
+        public ModelProducto ObtenerUnProducto(string ticket, string identificacion, string codigo)
         {
             try
             {
@@ -313,7 +299,8 @@ namespace Datos
                 {
                     var task = Task.Run(async () =>
                     {
-                        return await client.GetAsync(SERVICE_BASE_URL + "Productos/?codigo=" + codigo);
+                        return await client.GetAsync(SERVICE_BASE_URL + "Productos/?ticket=" + ticket + 
+                            "&id=" + identificacion + "&codigo=" + codigo);
                     }
                     );
                     HttpResponseMessage message = task.Result;
