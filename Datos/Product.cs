@@ -132,12 +132,12 @@ namespace Datos
         {
             try
             {
-                string data = ticket + "," + identificacion + "," + codigo;
                 using (var client = new HttpClient())
                 {
                     var task = Task.Run(async () =>
                     {
-                        return await client.DeleteAsync(SERVICE_BASE_URL + "Productos/?data=" + data);
+                        return await client.DeleteAsync(
+                             SERVICE_BASE_URL + "Productos/?ticket=" + ticket + "&id=" + identificacion + "&data=" + codigo);
                     }
                     );
                     HttpResponseMessage message = task.Result;

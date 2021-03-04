@@ -103,7 +103,7 @@ namespace TareaCorta3.Products
                 string resp = producto.validarCodigoP(txtCodigoS.Text);
                 if (resp.Equals("1"))
                 {
-                    if (producto.eliminarProducto(txtCodigoS.Text, LUser.Ticket, LUser.Identificacion).Equals("1"))
+                    if (producto.eliminarProducto(LUser.Ticket, LUser.Identificacion, txtCodigoS.Text).Equals("1"))
                     {
                         cargarTable();
                     }
