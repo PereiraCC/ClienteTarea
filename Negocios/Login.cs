@@ -12,6 +12,7 @@ namespace Negocios
     {
         private Users usuario = new Users();
 
+        //Metodo que recibe los datos de un usuario en pantalla, los valida y pasa a la capa datos para registrar un usuario
         public string crearUsuario(string identificacion, string nombre, string apellidos, string password)
         {
             try
@@ -32,22 +33,7 @@ namespace Negocios
             }  
         }
 
-        private string EncrytarPassword(string password)
-        {
-            string result = string.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(password);
-            result = Convert.ToBase64String(encryted);
-            return result;
-        }
-
-        private string DesEncrytarPassword(string password)
-        {
-            string result = string.Empty;
-            byte[] dencryted = Convert.FromBase64String(password);
-            result = System.Text.Encoding.Unicode.GetString(dencryted);
-            return result;
-        }
-
+        //Metodo que recibe los datos de un usuario en pantalla, los valida y pasa a la capa datos para validar las credenciales de un usuario
         public string ValidarUsuario(string identificacion, string password)
         {
             try
@@ -67,6 +53,7 @@ namespace Negocios
 
         }
 
+        //Metodo que recibe los datos de un usuario en pantalla, los valida y pasa a la capa datos para cerrar la sesion de un  usuario
         public string cerrarSesion(string identificacion)
         {
             try

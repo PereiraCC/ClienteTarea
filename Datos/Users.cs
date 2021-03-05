@@ -15,6 +15,7 @@ namespace Datos
 
         public Users() { }
 
+        //Este metodo hace la peticion http a la api para crear un usuario
         public string crearUsuario(ModelUsuario usuario)
         {
             try
@@ -57,6 +58,7 @@ namespace Datos
             }
         }
 
+        //Este metodo hace la peticion http a la api para validar las crendenciales de un usuario
         public string ValidarInicioSesion(ModelUsuario usuario)
         {
             try
@@ -104,6 +106,7 @@ namespace Datos
             }
         }
 
+        //Este metodo hace la peticion http a la api para cerrar la sesion de un usuario
         public string CerrarSesion(ModelUsuario usuario)
         {
             try

@@ -19,12 +19,14 @@ namespace TareaCorta3.Users
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+                //Se valida los datos 
                 string resp = user.ValidarNulosIndex(txtIdentificacion.Text, txtPassword.Text);
                 if (resp.Equals("1"))
                 {
                     resp = user.ValidarNumero(txtIdentificacion.Text);
                     if (resp.Equals("1"))
                     {
+                        //Se valida las crendenciales del usuario
                         resp = user.ValidarUsuario(txtIdentificacion.Text, txtPassword.Text);
                         if (resp.Equals("El usuario no existe"))
                         {
@@ -43,10 +45,11 @@ namespace TareaCorta3.Users
                         }
                         else
                         {
+                            //Se obtiene el ticket y se guarda en memoria.
                             LUser.Ticket = resp;
                             LUser.Identificacion = txtIdentificacion.Text;
                             Response.Redirect("../Products/listadoProductos.aspx");
-                        }//vusuario
+                        }
                     }
                     else
                     {
@@ -54,7 +57,7 @@ namespace TareaCorta3.Users
                         lblError.Text = "Error: " + resp;
                         txtIdentificacion.Text = "";
                         txtPassword.Text = "";
-                    }//vnumeros
+                    }
                 }
                 else
                 {
