@@ -19,7 +19,7 @@
                 <div class="card-body">
                    <form id="Form1" method="post" runat="server" autocomplete="off">
                         <div class="form-group">
-                            <asp:TextBox ID="txtIdentificacion"  placeholder="Identificacion" class="form-control" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtIdentificacion"  placeholder="Identificacion" class="form-control" runat="server" maxlength="20"></asp:TextBox>
                         </div>
                         <div class="form-group">
                             <asp:TextBox ID="txtPassword" Type="password"  placeholder="Contraseña" class="form-control" runat="server"></asp:TextBox>

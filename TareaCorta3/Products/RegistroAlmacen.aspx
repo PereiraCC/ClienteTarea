@@ -33,7 +33,7 @@
                                     <div class="card-body">
 
                                         <div class="form-group">
-                                            <asp:TextBox ID="txtNombre"  placeholder="Nombre" class="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtNombre"  placeholder="Nombre" class="form-control" runat="server" maxlength="50"></asp:TextBox>
                                         </div>
 
                                         <div class="form-group text-center">

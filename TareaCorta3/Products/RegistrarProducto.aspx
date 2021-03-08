@@ -33,12 +33,12 @@
                                     <div class="card-body">
                                        
                                         <div class="form-group">
-                                            <asp:TextBox ID="txtCodigo"  placeholder="Codigo" Text="" class="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtCodigo"  placeholder="Codigo" Text="" class="form-control" runat="server" maxlength="20"></asp:TextBox>
                                         </div>
 
                                         <div class="form-group">
                                             <asp:Label ID="lblNombre" runat="server" Text="" class="" Visible="false"></asp:Label>
-                                            <asp:TextBox ID="txtNombre"  placeholder="Nombre" class="form-control" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="txtNombre"  placeholder="Nombre" class="form-control" runat="server" maxlength="100"></asp:TextBox>
                                         </div>
 
                                         <div class="form-group">

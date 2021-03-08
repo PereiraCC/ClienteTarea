@@ -137,7 +137,7 @@ namespace Datos
                     var task = Task.Run(async () =>
                     {
                         return await client.DeleteAsync(
-                             SERVICE_BASE_URL + "Productos/?ticket=" + ticket + "&id=" + identificacion + "&data=" + codigo);
+                             SERVICE_BASE_URL + "Productos/?ticket=" + ticket + "&id=" + identificacion + "&codigo=" + codigo);
                     }
                     );
                     HttpResponseMessage message = task.Result;
