@@ -18,6 +18,21 @@
             <div class="form-group" runat="server">
                 <div class="row">
                     <div class="form-group">
+                        <div class="col-md-12">
+                            <asp:TextBox ID="txtNombre" runat="server" Text="" ReadOnly="false" class="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <asp:Button class="btn btn-success text-white" ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <asp:Button class="btn btn-secondary text-white" ID="btnTodos" runat="server" Text="Todos" OnClick="btnTodos_Click"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-md-4">
                             <asp:Button class="btn btn-primary text-white" ID="btnAdd" runat="server" Text="Nuevo Producto" OnClick="btnAdd_Click" />
                         </div>

@@ -149,5 +149,31 @@ namespace TareaCorta3.Products
                 lblError.Text = "Error: " + ex.Message;
             }
         }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                table = producto.obtenerProductoFiltrado(LUser.Ticket, LUser.Identificacion, txtNombre.Text);
+                gvProducts.DataSource = table;
+                gvProducts.DataBind();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        protected void btnTodos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                cargarTable();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

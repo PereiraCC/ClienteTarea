@@ -103,6 +103,39 @@ namespace Negocios
             }
         }
 
+        public DataTable obtenerProductoFiltrado(string ticket, string identificacion, string nombre)
+        {
+            try
+            {
+                DataTable dtProducto = createTable();
+                if (validarNombreP(nombre))
+                {
+                    List<ModelProducto> allProd = productos.ObtenerUnProductoNombre(ticket, identificacion, nombre);
+                    foreach (ModelProducto prod in allProd)
+                    {
+                        DataRow drRow = dtProducto.NewRow();
+                        drRow["Codigo"] = prod.codigo;
+                        drRow["Nombre"] = prod.descripcion;
+                        drRow["Existencias"] = prod.cantidad.ToString();
+                        drRow["Almacen"] = prod.nombreAlmacen;
+
+                        dtProducto.Rows.Add(drRow);
+                    }
+
+                    return dtProducto;
+                }
+                else
+                {
+                    return dtProducto;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public string eliminarProducto(string ticket, string identificacion, string codigo)
         {
             try
@@ -237,6 +270,25 @@ namespace Negocios
                 }
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool validarNombreP(string data)
+        {
+            try
+            {
+                if (vacioTexto(data) == false && validarTexto(data))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

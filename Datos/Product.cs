@@ -331,6 +331,47 @@ namespace Datos
             }
         }
 
+        public List<ModelProducto> ObtenerUnProductoNombre(string ticket, string identificacion, string nombre)
+        {
+            try
+            {
+                List<ModelProducto> product = new List<ModelProducto>();
+                using (var client = new HttpClient())
+                {
+                    var task = Task.Run(async () =>
+                    {
+                        return await client.GetAsync(SERVICE_BASE_URL + "Productos/BuscarProducto/?ticket=" + ticket +
+                            "&id=" + identificacion + "&nombre=" + nombre);
+                    }
+                    );
+                    HttpResponseMessage message = task.Result;
+                    if (message.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var task2 = Task<string>.Run(async () =>
+                        {
+                            return await message.Content.ReadAsStringAsync();
+                        });
+                        string mens = task2.Result;
+                        product = JsonConvert.DeserializeObject<List<ModelProducto>>(mens);
+                    }
+                    else if (message.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        product = null;
+                    }
+                    else
+                    {
+                        product = null;
+                    }
+                    return product;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public int ObtenerUnProducto2(string nombre)
         {
             try
